@@ -61,8 +61,8 @@
                                     {{ __('Login') }}
                                 </button>
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                @if (Route::has(isset($authgroup) ? $authgroup.'.password.request' : 'password.request'))
+                                    <a class="btn btn-link" href="{{ route(isset($authgroup) ? $authgroup.'.password.request' : 'password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif

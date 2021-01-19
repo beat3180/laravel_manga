@@ -28,4 +28,9 @@ Route::post('/register/admin', 'Auth\RegisterController@createAdmin')->name('adm
 
 
 Route::view('/admin', 'admin')->middleware('auth:admin')->name('admin-home');
-//Route::post('/logout', 'Auth\LoginController@Adminlogout')->middleware('auth:admin')->name('logout');
+
+//パスワードリセット
+Route::get('password/admin/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
+Route::post('password/admin/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
+Route::get('password/admin/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
+Route::post('password/admin/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');

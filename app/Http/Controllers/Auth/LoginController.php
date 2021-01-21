@@ -29,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/manga/index';
 
     /**
      * Create a new controller instance.
@@ -58,7 +58,7 @@ class LoginController extends Controller
 
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
-            return redirect()->intended('/admin');
+            return redirect()->intended('/manga/index');
         }
         return back()->withInput($request->only('email', 'remember'));
     }
@@ -88,4 +88,6 @@ class LoginController extends Controller
         //route()によりroutes/web.phpでnameを指定する必要があります
         return redirect(route('login'));
     }
+
+
 }

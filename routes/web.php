@@ -34,3 +34,8 @@ Route::get('password/admin/reset', 'Auth\AdminForgotPasswordController@showLinkR
 Route::post('password/admin/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
 Route::get('password/admin/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
 Route::post('password/admin/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');
+
+//マンガトーカー
+Route::get('/manga/top', 'MangaController@top');
+
+Route::get('/manga/index', 'MangaController@index')->name('/manga/index');

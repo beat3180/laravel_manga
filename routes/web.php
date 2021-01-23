@@ -36,6 +36,9 @@ Route::get('password/admin/reset/{token}', 'Auth\AdminResetPasswordController@sh
 Route::post('password/admin/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');
 
 //マンガトーカー
-Route::get('/manga/top', 'MangaController@top');
+Route::get('/manga/top', 'Manga\MangaController@top');
 
-Route::get('/manga/index', 'MangaController@index')->name('/manga/index');
+Route::get('/manga/index', 'Manga\MangaController@index')->name('/manga/index');
+
+Route::get('/manga/create', 'Manga\CategoryController@index')->middleware('auth:admin');
+Route::resource('category', 'Manga\CategoryController');

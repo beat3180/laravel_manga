@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Manga;
+// 以下を追加
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 

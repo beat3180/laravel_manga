@@ -6,12 +6,10 @@ return
     'ERROR_MESSAGE' => 'エラーが発生しました。',
 
 
-    //index.phpのドキュメントルート
     'HOME_URL' => '/manga/index',
-    //login.phpのドキュメントルート
     'LOGIN_URL' => '/login',
-    //signup.phpのドキュメントルート
     'SIGNUP_URL' => '/register',
+    'CREATE_URL', '/manga/create',
     /*//定数、/assets/images/というドキュメントルートを取得する
     'IMAGE_PATH', '/assets/images/'
     //定数、/var/www/html/というドキュメントルートを取得し、/assets/images/というドキュメントルートに繋げる。

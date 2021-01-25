@@ -25,4 +25,11 @@ class Admin extends Authenticatable
     {
         $this->notify(new AdminResetPassword($token));
     }
+
+    protected $table = 'admins';
+
+    public function contents()
+    {
+        return $this->hasMany('App\Content');
+    }
 }

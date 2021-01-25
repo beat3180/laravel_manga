@@ -42,3 +42,6 @@ Route::get('/manga/index', 'Manga\MangaController@index')->name('/manga/index');
 
 Route::get('/manga/create', 'Manga\CategoryController@index')->middleware('auth:admin');
 Route::resource('category', 'Manga\CategoryController');
+
+Route::get('/manga/post', 'Manga\PostController@index');
+Route::resource('post', 'Manga\PostController');

@@ -8,7 +8,16 @@ class Category extends Model
 {
     protected $guarded = array('id');
 
-    public static $rules = array(
+
+    protected $table = "categories";
+
+    public function contents()
+    {
+        return $this->hasMany('App\Content');
+    }
+
+
+    /*public static $rules = array(
         'category' => 'required | between:1,100',
-    );
+    );*/
 }

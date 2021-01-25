@@ -17,10 +17,10 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{config('const.USER_CONTENTS_URL')}}">MY記事</a>
+            <a class="nav-link" href="">MY記事</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{config('const.POST_URL')}}">記事投稿</a>
+            <a class="nav-link" href="/manga/post">記事投稿</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href={{ route('logout') }} onclick="event.preventDefault();
@@ -53,7 +53,7 @@
             <a class="nav-link" href="{{config('const.USER_CONTENTS_URL')}}">MY記事</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{config('const.POST_URL')}}">記事投稿</a>
+            <a class="nav-link" href="/manga/post">記事投稿</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href={{ route('logout') }} onclick="event.preventDefault();

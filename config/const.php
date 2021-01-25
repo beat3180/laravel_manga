@@ -10,6 +10,20 @@ return
     'LOGIN_URL' => '/login',
     'SIGNUP_URL' => '/register',
     'CREATE_URL', '/manga/create',
+    'POST_URL', '/manga/post',
+
+    //DBcontentsテーブル、statusカラム1
+    'CONTENT_OPEN' => 1,
+    //DBcontentsテーブル、statusカラム0
+    'CONTENT_CLOSE' => 0,
+
+    //コンテンツステータスを設定する定数、連想配列でキーがopenの場合1の値が入り、キーがcloseの場合0の値が入る
+    /*define('PERMITTED_CONTENTS_STATUSES', array(
+      'open' => 1,
+      'close' => 0,
+    ));*/
+
+
     /*//定数、/assets/images/というドキュメントルートを取得する
     'IMAGE_PATH', '/assets/images/'
     //定数、/var/www/html/というドキュメントルートを取得し、/assets/images/というドキュメントルートに繋げる。
@@ -46,11 +60,6 @@ return
     //admin.phpのドキュメントルート
     'ADMIN_URL', '/admin.php'
 
-
-    //DBusersテーブル、typeカラム1
-    'USER_TYPE_ADMIN' => 1,
-    //DBusersテーブル、typeカラム2
-    'USER_TYPE_NORMAL' => 2,
 
     //DBcontentsテーブル、statusカラム1
     'CONTENTS_STATUS_OPEN' => 1,

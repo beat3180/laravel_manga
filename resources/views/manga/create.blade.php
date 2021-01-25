@@ -30,6 +30,7 @@
       <input type="submit" value="カテゴリー追加" class="btn btn-primary">
     </form>
 
+    @if(count($categories) > 0)
       <table class="table table-bordered text-center p-md-3 m-md-3">
         <thead class="thead-light">
           <tr>
@@ -53,6 +54,9 @@
         </tbody>
 
       </table>
+    @else
+      <p>カテゴリーはありません。</p>
+    @endif
   </div>
    <!--jQuery、$('.delete')で要素を特定、confirmでダイアログを開く-->
   <script>

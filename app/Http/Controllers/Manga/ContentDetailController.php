@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Manga;
 
 use Illuminate\Http\Request;
-use App\Category;
 // 以下を追加
 use App\Http\Controllers\Controller;
+use App\Category;
+use App\Content;
+use App\User;
+use App\Admin;
+//ユーザーID取得用の継承
+use Illuminate\Support\Facades\Auth;
 //フォームリクエストクラスを継承する
 use App\Http\Requests\MangaRequest;
 
-
-class CategoryController extends Controller
+class ContentDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +22,10 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-     {
-         $categories = Category::all();
-         return view('manga.create',['categories' => $categories]);
-     }
+    {
+        $contents = Content::with(['admin','user','category'])->get();
+        return view('manga.content_detail', ['contents' => $contents]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -39,14 +43,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MangaRequest $request)
+    public function store(Request $request)
     {
-        //$this->validate($request,Category::$rules);
-        $category = new Category;
-        $form = $request->all();
-        unset($form['__token']);
-        $category->fill($form)->save();
-        return redirect('/manga/create')->with('msg_success', 'カテゴリーを追加しました');;
+        //
     }
 
     /**
@@ -89,11 +88,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        $category->delete();
-        return redirect('/manga/create')->with('msg_success', 'カテゴリーを削除しました');
+        //
     }
-
-
 }

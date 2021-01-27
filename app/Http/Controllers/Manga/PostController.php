@@ -86,7 +86,7 @@ class PostController extends Controller
         $content->approved_at = $request->approved_at;
         $content->image = $fileName;
         $content->save();
-        return redirect('/manga/index')->with('msg_success', '記事を投稿しました');;
+        return redirect('/manga/index')->with('msg_success', '記事を投稿しました');
     }
 
     /**

@@ -38,10 +38,13 @@ Route::post('password/admin/reset', 'Auth\AdminResetPasswordController@reset')->
 //マンガトーカー
 Route::get('/manga/top', 'Manga\MangaController@top');
 
-Route::get('/manga/index', 'Manga\MangaController@index')->name('/manga/index');
-
 Route::get('/manga/create', 'Manga\CategoryController@index')->middleware('auth:admin');
 Route::resource('category', 'Manga\CategoryController');
 
 Route::get('/manga/post', 'Manga\PostController@index');
 Route::resource('post', 'Manga\PostController');
+
+Route::get('/manga/index', 'Manga\ContentController@index')->name('/manga/index');
+Route::resource('content', 'Manga\ContentController');
+
+Route::get('/manga/content_dateil', 'Manga\ContentDateilController@index');

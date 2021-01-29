@@ -47,4 +47,12 @@ Route::resource('post', 'Manga\PostController');
 Route::get('/manga/index', 'Manga\ContentController@index')->name('/manga/index');
 Route::resource('content', 'Manga\ContentController');
 
-Route::get('/manga/content_dateil', 'Manga\ContentDateilController@index');
+Route::resource('content_detail', 'Manga\ContentDetailController');
+
+Route::get('/manga/my_contents', 'Manga\MyContentController@index');
+Route::resource('my_contents', 'Manga\MyContentController');
+
+Route::get('/manga/admin_contents', 'Manga\AdminContentsController@index')->middleware('auth:admin');
+Route::resource('admin_contents', 'Manga\AdminContentsController');
+
+Route::resource('comment', 'Manga\CommentController');

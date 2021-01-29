@@ -25,7 +25,7 @@ a.link_border {
         @if ($content->is_approved)
           <div class="col-md-4">
             <div class="card mb-4 shadow-sm ">
-              <a class="link_border" href="#">
+              <a class="link_border" href="{{ url('content_detail', ['id' => $content->id]) }}">
                 @if($content->image !== "")
                 <img class="card-img-top" src="/uploads/{{$content->image}}" alt="Card image cap">
                 @else
@@ -41,7 +41,7 @@ a.link_border {
                         <p>ユーザー名:{{$content->user->name}}</p>
                       @endif
                   </div>
-                  <div><small class="text-muted">{{$content->updated_at}}</small></div>
+                  <div><small class="text-muted">{{$content->created_at}}</small></div>
                 </div>
               </a>
               <!--adminユーザーの場合、下を表示-->
@@ -78,7 +78,7 @@ a.link_border {
     </div>
   </div>
   @else
-    <p>コンテンツはありません。</p>
+    <p>記事はありません。</p>
   @endif
   <!--jQuery、$('.delete')で要素を特定、confirmでダイアログを開く-->
   <script>

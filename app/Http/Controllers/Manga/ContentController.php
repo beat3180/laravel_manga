@@ -81,7 +81,7 @@ class ContentController extends Controller
     {
         $content->approved_at = $request->approved_at;
         $content->save();
-        return redirect('/manga/index')->with('msg_success', '記事のステータスを変更しました');
+        return redirect('/manga/admin_contents')->with('msg_success', '記事のステータスを変更しました');
     }
 
     /**
@@ -92,7 +92,11 @@ class ContentController extends Controller
      */
     public function destroy(Content $content)
     {
+        $contentimage = $content->image;
+        if($contentimage !== ""){
+            unlink(public_path('uploads/'.$contentimage));
+        }
         $content->delete();
-        return redirect('/manga/index')->with('msg_success', '記事を削除しました');
+        return redirect('/manga/admin_contents')->with('msg_success', '記事を削除しました');
     }
 }

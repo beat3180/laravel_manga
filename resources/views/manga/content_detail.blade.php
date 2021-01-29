@@ -17,55 +17,58 @@ img{
 @include('layouts.header_logined')
 
 @include('layouts.message')
-<div class="<?php print (is_open($contents) ? '' : 'close_contents'); ?>">
+<div class="{{$content->approved_at}} === true ? '' : 'close_contents'); ">
   <div class="container">
     <div class="position-relative overflow-hidden p-3 p-md-1 m-md-1 text-center bg-light">
         @if($content->image !== "")
           <img src="/uploads/{{$content->image}}" alt="Card image cap">
         @else
-          <img src="/uploads/漫画デフォルト.png" alt="Card image">
+          <img src="/uploads/マンガトーカー/漫画デフォルト.png" alt="Card image">
         @endif
     </div>
 
       <div class="row d-flex">
         <div class="col-sm-5 ml-4">
           <div class="d-flex">
-            <p class="my-auto"><?php print h($contents['name']); ?></p>
+            @if($content->user_id === null)
+              <p class="my-auto">{{$content->admin->name}}</p>
+            @elseif($content->admin_id === null)
+              <p class="my-auto">{{$content->user->name}}</p>
+            @endif
 
-            <?php if(is_person_user_contents($user,$contents['user_id']) || is_admin($user)){ ?>
+            @if(Auth::guard('admin')->check() || Auth::guard('web')->check())
+            @if(Auth::guard('admin')->check() || $content->user_id === Auth::guard('web')->id())
             <div class="d-flex justify-content-between align-items-center col-md-4">
               <div class="btn-group">
-                <form method="post" action="contents_change_status.php" class="operation">
-                  <?php if(is_open($contents) === true){ ?>
+                <form method="post" action="{{ url('content_detail', ['id' => $content->id]) }}" class="operation">
+                  @csrf
+                  {{ method_field('patch')}}
+                  @if ($content->is_approved)
                     <input type="submit" value="公開 → 非公開" class="btn btn-sm btn-secondary">
-                    <input type="hidden" name="changes_to" value="close">
-                  <?php } else { ?>
+                    <input type="hidden" name="approved_at" value="{{config('const.CONTENT_CLOSE')}}">
+                  @else
                     <input type="submit" value="非公開 → 公開" class="btn btn-sm btn-secondary">
-                    <input type="hidden" name="changes_to" value="open">
-                  <?php } ?>
-                  <input type="hidden" name="contents_id" value="<?php print($contents['contents_id']); ?>">
-                  <input type="hidden" name="contents_detail_change_status" value="contents_detail_change_status">
-                  <!--CSRF対策のセッションに登録されたトークンを送信する-->
-                  <input type="hidden" name="csrf" value="<?php print($token); ?>">
+                    <input type="hidden" name="approved_at" value="{{config('const.CONTENT_OPEN')}}">
+                  @endif
                 </form>
 
-                <form method="post" action="contents_delete.php">
+                <form method="post" action="{{ url('content_detail', ['id' => $content->id]) }}">
+                @csrf
+                {{ method_field('delete') }}
                   <input type="submit" value="削除" class="btn btn-sm btn-danger delete">
-                  <input type="hidden" name="contents_id" value="<?php print($contents['contents_id']); ?>">
-                  <!--CSRF対策のセッションに登録されたトークンを送信する-->
-                  <input type="hidden" name="csrf" value="<?php print($token); ?>">
                 </form>
               </div>
             </div>
-            <?php } ?>
+            @endif
+            @endif
           </div>
 
           <div class="border py-2 rounded-pill text-center bg-warning">
-            <h5><?php print h($contents['category']); ?></h5>
+            <h5>{{$content->category->category}}</h5>
           </div>
         </div>
 
-        <small class="ml-auto">投稿日時:<?php print h($contents['created_datetime']); ?></small>
+        <small class="ml-auto">投稿日時:{{$content->created_at}}</small>
 
       </div>
   </div>
@@ -74,44 +77,48 @@ img{
 
   <div class=" container py-4">
     <div class="text-center">
-      <h1 class="font-weight-normal py-4" style="border-bottom: 5px solid;"><?php print h($contents['title']); ?></h1>
-      <h4 class="text-left py-3 pb-5 mb-5" style="border-bottom: 3px solid; white-space:pre-wrap;"><?php print h($contents['contents']); ?></h4>
+      <h1 class="font-weight-normal py-4" style="border-bottom: 5px solid;">{{$content->title}}</h1>
+      <h4 class="text-left py-3 pb-5 mb-5" style="border-bottom: 3px solid; white-space:pre-wrap;">{{$content->content}}</h4>
     </div>
     <h5 class="">コメント</h5>
     <div class="list-group">
-      <?php foreach($comments as $comment){ ?>
+      @foreach ($comments as $comment)
       <div class="list-group-item" aria-current="true">
         <div class="d-flex w-100 justify-content-between">
-          <p class="mb-1"><?php print h(($comment['name'])); ?></p>
-          <small><?php print h(($comment['create_datetime'])); ?></small>
+          @if($comment->user_id === null)
+            <p class="mb-1">{{$comment->admin->name}}</p>
+          @elseif($comment->admin_id === null)
+            <p class="my-auto">{{$comment->user->name}}</p>
+          @endif
+          <small>{{$comment->created_at}}</small>
         </div>
-        <h6 class="my-4 ml-4" style="white-space:pre-wrap;"><?php print h(($comment['comment'])); ?></h6>
-        <?php if(is_person_user_comment($user,$comment['user_id']) || is_admin($user)){ ?>
-        <form method="post" action="comment_delete.php">
+        <h6 class="my-4 ml-4" style="white-space:pre-wrap;">{{$comment->comment}}</h6>
+        @if(Auth::guard('admin')->check() || Auth::guard('web')->check())
+        @if(Auth::guard('admin')->check() || $comment->user_id === Auth::guard('web')->id())
+        <form method="post" action="{{ url('comment', ['id' => $comment->id]) }}">
+        @csrf
+        {{ method_field('delete') }}
           <input type="submit" value="削除" class="btn btn-sm btn-danger delete">
-          <input type="hidden" name="comment_id" value="<?php print($comment['comment_id']); ?>">
-          <input type="hidden" name="contents_id" value="<?php print($contents['contents_id']); ?>">
-          <!--CSRF対策のセッションに登録されたトークンを送信する-->
-          <input type="hidden" name="csrf" value="<?php print($token); ?>">
         </form>
-        <?php } ?>
+        @endif
+        @endif
       </div>
-      <?php } ?>
+      @endforeach
 
-      <form method="post" action="comment_insert.php">
+      @if(Auth::guard('admin')->check() || Auth::guard('web')->check())
+      <form method="post" action="{{ url('comment')}}">
+      @csrf
         <div class="mt-5">
           <label for="comment" class="form-label">コメント投稿</label>
           <textarea name="comment" rows="5" id="comment" class="form-control"></textarea>
+          <input type="hidden" name="content_id" value="{{$content->id}}">
         </div>
-        <input type="hidden" name="contents_id" value="<?php print($contents['contents_id']); ?>">
-        <!--CSRF対策のセッションに登録されたトークンを送信する-->
-        <input type="hidden" name="csrf" value="<?php print($token); ?>">
         <button type="submit" class="btn btn-primary my-3">コメントを投稿する</button>
       </form>
+      @endif
     </div>
 
   </div>
-
 
   <!--jQuery、$('.delete')で要素を特定、confirmでダイアログを開く-->
   <script>

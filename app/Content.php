@@ -39,4 +39,9 @@ class Content extends Model
     {
         return $this->belongsTo('App\Category');
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }

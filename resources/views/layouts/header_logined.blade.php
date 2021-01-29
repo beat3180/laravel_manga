@@ -11,13 +11,13 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">管理</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
-              <a class="dropdown-item" href="{{config('const.ADMIN_CONTENTS_URL')}}">記事一覧・管理</a>
+              <a class="dropdown-item" href="/manga/admin_contents">記事一覧・管理</a>
               <a class="dropdown-item" href="/manga/create">カテゴリー追加・管理</a>
               <a class="dropdown-item" href="{{config('const.ADMIN_COMMENT_URL')}}">コメント一覧・管理</a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">MY記事</a>
+            <a class="nav-link" href="/manga/my_contents">MY記事</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/manga/post">記事投稿</a>
@@ -50,7 +50,7 @@
       <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav col-auto ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{{config('const.USER_CONTENTS_URL')}}">MY記事</a>
+            <a class="nav-link" href="/manga/my_contents">MY記事</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/manga/post">記事投稿</a>

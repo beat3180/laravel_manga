@@ -32,4 +32,9 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('App\Content');
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }

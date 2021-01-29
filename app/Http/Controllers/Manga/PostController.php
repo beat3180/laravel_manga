@@ -21,11 +21,7 @@ class PostController extends Controller
     public function __construct()
   {
 
-    if(Auth::guard('admin')->check()){
-        $this->middleware('auth;admin');
-    } else if (Auth::guard('web')->check()) {
-        $this->middleware('auth');
-    }
+         $this->middleware('auth:web,admin');
   }
     /**
      * Display a listing of the resource.

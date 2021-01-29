@@ -17,20 +17,14 @@ use App\Http\Requests\MangaRequest;
 //リダイレクトクラスを継承
 use Illuminate\Support\Facades\Redirect;
 
-class ContentDetailController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    /*public function index(Request $request,id $id)
-    {
-        $content = Content::with(['admin','user','category'])->find($id)->get();
-        return view('manga.content_detail', compact('id'), );
-    }*/
-
-     public function index()
+    public function index()
     {
         //
     }
@@ -53,9 +47,25 @@ class ContentDetailController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        if (Auth::guard('admin')->check()) {
+            $admin_id = Auth::guard('admin')->id();
+        }
+        if (Auth::guard('web')->check()) {
+            $user_id = Auth::id();
+        }
 
+        $comment = new Comment;
+        if (Auth::guard('admin')->check()) {
+            $comment->admin_id = $admin_id;
+        }
+        if (Auth::guard('web')->check()) {
+            $comment->user_id = $user_id;
+        }
+        $comment->content_id = $request->content_id;
+        $comment->comment = $request->comment;
+        $comment->save();
+        return Redirect::back()->with('msg_success', 'コメントを投稿しました');
+    }
 
     /**
      * Display the specified resource.
@@ -65,10 +75,7 @@ class ContentDetailController extends Controller
      */
     public function show($id)
     {
-        $content = Content::with(['admin','user','category'])->findOrFail($id);
-        $comments = Comment::with(['admin','user','content'])->where('content_id',$id)->get();
-
-        return view('manga.content_detail', ['content' => $content],['comments' => $comments]);
+        //
     }
 
     /**
@@ -89,12 +96,9 @@ class ContentDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        $content = Content::findOrFail($id);
-        $content->approved_at = $request->approved_at;
-        $content->save();
-        return Redirect::back()->with('msg_success', '記事のステータスを変更しました');
+        //
     }
 
     /**
@@ -105,12 +109,8 @@ class ContentDetailController extends Controller
      */
     public function destroy($id)
     {
-        $content = Content::findOrFail($id);
-        $contentimage = $content->image;
-        if($contentimage !== ""){
-            unlink(public_path('uploads/'.$contentimage));
-        }
-        $content->delete();
-        return redirect()->action('Manga\MyContentController@index')->with('msg_success', '記事を削除しました');
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+        return Redirect::back()->with('msg_success', 'コメントを削除しました');
     }
 }

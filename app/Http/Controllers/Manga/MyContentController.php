@@ -9,7 +9,6 @@ use App\Category;
 use App\Content;
 use App\User;
 use App\Admin;
-use App\Comment;
 //ユーザーID取得用の継承
 use Illuminate\Support\Facades\Auth;
 //フォームリクエストクラスを継承する
@@ -17,22 +16,25 @@ use App\Http\Requests\MangaRequest;
 //リダイレクトクラスを継承
 use Illuminate\Support\Facades\Redirect;
 
-class ContentDetailController extends Controller
+class MyContentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    /*public function index(Request $request,id $id)
-    {
-        $content = Content::with(['admin','user','category'])->find($id)->get();
-        return view('manga.content_detail', compact('id'), );
-    }*/
 
-     public function index()
+      public function __construct()
+  {
+         $this->middleware('auth:web,admin');
+  }
+
+
+    public function index()
     {
-        //
+
+        $contents = Content::with(['admin','user','category'])->where('user_id',Auth::guard('web')->id())->where('admin_id',Auth::guard('admin')->id())->get();
+        return view('manga.my_contents', ['contents' => $contents]);
     }
 
     /**
@@ -56,7 +58,6 @@ class ContentDetailController extends Controller
         //
     }
 
-
     /**
      * Display the specified resource.
      *
@@ -65,10 +66,7 @@ class ContentDetailController extends Controller
      */
     public function show($id)
     {
-        $content = Content::with(['admin','user','category'])->findOrFail($id);
-        $comments = Comment::with(['admin','user','content'])->where('content_id',$id)->get();
-
-        return view('manga.content_detail', ['content' => $content],['comments' => $comments]);
+        //
     }
 
     /**

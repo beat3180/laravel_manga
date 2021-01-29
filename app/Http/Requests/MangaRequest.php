@@ -14,7 +14,7 @@ class MangaRequest extends FormRequest
      public function authorize()
     {
         //パスでフォームリクエストの利用を判断する。パスが一致すればフォームリクエストを使える
-        if($this->path() == 'category' || 'post' || 'content')
+        if($this->path() == 'category' || 'post' || 'content' || 'content_detail')
         {
             return true;
         } else {

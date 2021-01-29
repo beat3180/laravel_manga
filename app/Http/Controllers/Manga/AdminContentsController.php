@@ -9,7 +9,6 @@ use App\Category;
 use App\Content;
 use App\User;
 use App\Admin;
-use App\Comment;
 //ユーザーID取得用の継承
 use Illuminate\Support\Facades\Auth;
 //フォームリクエストクラスを継承する
@@ -17,22 +16,17 @@ use App\Http\Requests\MangaRequest;
 //リダイレクトクラスを継承
 use Illuminate\Support\Facades\Redirect;
 
-class ContentDetailController extends Controller
+class AdminContentsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    /*public function index(Request $request,id $id)
+    public function index(Request $request)
     {
-        $content = Content::with(['admin','user','category'])->find($id)->get();
-        return view('manga.content_detail', compact('id'), );
-    }*/
-
-     public function index()
-    {
-        //
+        $contents = Content::with(['admin','user','category'])->get();
+        return view('manga.admin_contents', ['contents' => $contents]);
     }
 
     /**
@@ -56,7 +50,6 @@ class ContentDetailController extends Controller
         //
     }
 
-
     /**
      * Display the specified resource.
      *
@@ -65,10 +58,7 @@ class ContentDetailController extends Controller
      */
     public function show($id)
     {
-        $content = Content::with(['admin','user','category'])->findOrFail($id);
-        $comments = Comment::with(['admin','user','content'])->where('content_id',$id)->get();
-
-        return view('manga.content_detail', ['content' => $content],['comments' => $comments]);
+        //
     }
 
     /**
@@ -94,7 +84,7 @@ class ContentDetailController extends Controller
         $content = Content::findOrFail($id);
         $content->approved_at = $request->approved_at;
         $content->save();
-        return Redirect::back()->with('msg_success', '記事のステータスを変更しました');
+        return redirect('manga/admin_contents')->with('msg_success', '記事のステータスを変更しました');
     }
 
     /**
@@ -103,7 +93,7 @@ class ContentDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+   public function destroy($id)
     {
         $content = Content::findOrFail($id);
         $contentimage = $content->image;
@@ -111,6 +101,6 @@ class ContentDetailController extends Controller
             unlink(public_path('uploads/'.$contentimage));
         }
         $content->delete();
-        return redirect()->action('Manga\MyContentController@index')->with('msg_success', '記事を削除しました');
+        return redirect('manga/admin_contents')->with('msg_success', '記事を削除しました');
     }
 }

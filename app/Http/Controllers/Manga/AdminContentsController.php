@@ -9,6 +9,7 @@ use App\Category;
 use App\Content;
 use App\User;
 use App\Admin;
+use App\Comment;
 //ユーザーID取得用の継承
 use Illuminate\Support\Facades\Auth;
 //フォームリクエストクラスを継承する
@@ -93,7 +94,7 @@ class AdminContentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   public function destroy($id)
+    public function destroy($id)
     {
         $content = Content::findOrFail($id);
         $contentimage = $content->image;
@@ -101,6 +102,8 @@ class AdminContentsController extends Controller
             unlink(public_path('uploads/'.$contentimage));
         }
         $content->delete();
+
+        $comment = Comment::where('content_id',$id)->delete();
         return redirect('manga/admin_contents')->with('msg_success', '記事を削除しました');
     }
 }

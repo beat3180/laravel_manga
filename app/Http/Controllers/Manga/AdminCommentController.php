@@ -17,25 +17,18 @@ use App\Http\Requests\MangaRequest;
 //リダイレクトクラスを継承
 use Illuminate\Support\Facades\Redirect;
 
-class MyContentController extends Controller
+class AdminCommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-      public function __construct()
-  {
-         $this->middleware('auth:web,admin');
-  }
-
-
     public function index()
     {
+        $comments = Comment::with(['admin','user','content'])->get();
 
-        $contents = Content::with(['admin','user','category'])->where('user_id',Auth::guard('web')->id())->where('admin_id',Auth::guard('admin')->id())->get();
-        return view('manga.my_contents', ['contents' => $contents]);
+        return view('manga.admin_comment', ['comments' => $comments]);
     }
 
     /**
@@ -88,12 +81,9 @@ class MyContentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        $content = Content::findOrFail($id);
-        $content->approved_at = $request->approved_at;
-        $content->save();
-        return Redirect::back()->with('msg_success', '記事のステータスを変更しました');
+        //
     }
 
     /**
@@ -104,13 +94,8 @@ class MyContentController extends Controller
      */
     public function destroy($id)
     {
-        $content = Content::findOrFail($id);
-        $contentimage = $content->image;
-        if($contentimage !== ""){
-            unlink(public_path('uploads/'.$contentimage));
-        }
-        $content->delete();
-        $comment = Comment::where('content_id',$id)->delete();
-        return redirect()->action('Manga\MyContentController@index')->with('msg_success', '記事を削除しました');
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+        return Redirect::back()->with('msg_success', 'コメントを削除しました');
     }
 }

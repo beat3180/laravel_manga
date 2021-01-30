@@ -11,7 +11,7 @@
           <a class="nav-link" href="{{config('const.LOGIN_URL')}}">ログイン</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{config('const.SIGNUP_URL')}}">サインアップ</a>
+          <a class="nav-link" href="{{config('const.SIGNUP_URL')}}">新規登録</a>
         </li>
       </ul>
     </div>

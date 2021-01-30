@@ -45,7 +45,7 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MangaRequest $request)
     {
         if (Auth::guard('admin')->check()) {
             $admin_id = Auth::guard('admin')->id();

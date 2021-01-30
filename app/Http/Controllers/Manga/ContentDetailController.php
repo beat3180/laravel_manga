@@ -111,6 +111,7 @@ class ContentDetailController extends Controller
             unlink(public_path('uploads/'.$contentimage));
         }
         $content->delete();
+        $comment = Comment::where('content_id',$id)->delete();
         return redirect()->action('Manga\MyContentController@index')->with('msg_success', '記事を削除しました');
     }
 }

@@ -90,9 +90,9 @@ img{
          @endforeach
         </tbody>
       </table>
-     @else
-    <p>記事はありません。</p>
-  @endif
+    @else
+      <p>記事はありません。</p>
+    @endif
   </div>
    <!--jQuery、$('.delete')で要素を特定、confirmでダイアログを開く-->
   <script>

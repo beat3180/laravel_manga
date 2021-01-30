@@ -76,5 +76,12 @@
             </div>
         </div>
     </div>
+    @isset($authgroup)
+        <div class="mt-5 text-center"><a class="link_border" href="/login">userログインへ</a></div>
+        <p class="text-center">※メールアドレス:admin@admin　パスワード:adminadmin</p>
+    @else
+        <div class="mt-5 text-center"><a class="link_border" href="/login/admin">adminログインへ</a></div>
+        <p class="text-center">※メールアドレス:user@user　パスワード:useruser</p>
+    @endisset
 </div>
 @endsection

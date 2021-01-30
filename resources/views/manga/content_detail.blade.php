@@ -106,9 +106,18 @@ img{
       @endforeach
 
       @if(Auth::guard('admin')->check() || Auth::guard('web')->check())
+      @if(count($errors) > 0)
+      <div class="mt-5">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li class="alert alert-danger">{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+      @endif
       <form method="post" action="{{ url('comment')}}">
       @csrf
-        <div class="mt-5">
+        <div class="mt-2">
           <label for="comment" class="form-label">コメント投稿</label>
           <textarea name="comment" rows="5" id="comment" class="form-control"></textarea>
           <input type="hidden" name="content_id" value="{{$content->id}}">

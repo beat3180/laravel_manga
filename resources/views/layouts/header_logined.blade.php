@@ -13,7 +13,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdown01">
               <a class="dropdown-item" href="/manga/admin_contents">記事一覧・管理</a>
               <a class="dropdown-item" href="/manga/create">カテゴリー追加・管理</a>
-              <a class="dropdown-item" href="{{config('const.ADMIN_COMMENT_URL')}}">コメント一覧・管理</a>
+              <a class="dropdown-item" href="/manga/admin_comment">コメント一覧・管理</a>
             </div>
           </li>
           <li class="nav-item">

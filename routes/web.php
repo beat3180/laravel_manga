@@ -56,3 +56,6 @@ Route::get('/manga/admin_contents', 'Manga\AdminContentsController@index')->midd
 Route::resource('admin_contents', 'Manga\AdminContentsController');
 
 Route::resource('comment', 'Manga\CommentController');
+
+Route::get('/manga/admin_comment', 'Manga\AdminCommentController@index')->middleware('auth:admin');
+Route::resource('admincomment', 'Manga\AdminCommentController');

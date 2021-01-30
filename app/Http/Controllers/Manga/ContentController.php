@@ -9,6 +9,7 @@ use App\Category;
 use App\Content;
 use App\User;
 use App\Admin;
+use App\Comment;
 //ユーザーID取得用の継承
 use Illuminate\Support\Facades\Auth;
 //フォームリクエストクラスを継承する
@@ -97,6 +98,7 @@ class ContentController extends Controller
             unlink(public_path('uploads/'.$contentimage));
         }
         $content->delete();
+        $comment = Comment::where('content_id',$content->id)->delete();
         return redirect('/manga/admin_contents')->with('msg_success', '記事を削除しました');
     }
 }

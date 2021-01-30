@@ -14,7 +14,7 @@ class MangaRequest extends FormRequest
      public function authorize()
     {
         //パスでフォームリクエストの利用を判断する。パスが一致すればフォームリクエストを使える
-        if($this->path() == 'category' || 'post' || 'content' || 'content_detail')
+        if($this->path() == 'category' || 'post' || 'content' || 'content_detail' || 'comment')
         {
             return true;
         } else {
@@ -44,6 +44,9 @@ class MangaRequest extends FormRequest
         if ($this->has('content')) {
             $rules['content'] = 'required|between:1,2000';
         }
+        if ($this->has('comment')) {
+            $rules['comment'] = 'required|between:1,300';
+        }
         if ($this->has('category_id')) {
             $rules['category_id'] = 'required';
         }
@@ -58,6 +61,9 @@ class MangaRequest extends FormRequest
         }
         if ($this->has('admin_id')) {
             $rules['admin_id'] = 'required';
+        }
+        if ($this->has('content_id')) {
+            $rules['content_id'] = 'required';
         }
 
 
@@ -82,7 +88,9 @@ class MangaRequest extends FormRequest
             'title.required' => 'タイトルは必ず入力してください',
             'title.between' => 'タイトルは1〜100文字以内で入力してください',
             'content.required' => '記事は必ず入力してください',
-            'content.between' => '記事は1〜100文字以内で入力してください',
+            'content.between' => '記事は1〜2000文字以内で入力してください',
+            'comment.required' => 'コメントは必ず入力してください',
+            'comment.between' => '記事は1〜300文字以内で入力してください',
             'image.image' => '画像ファイルの拡張子は(jpg、png、bmp、gif、svg)にしてください',
             'image.file' => 'ファイルが不正です',
         ];
